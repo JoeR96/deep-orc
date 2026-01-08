@@ -1,0 +1,25 @@
+{
+  "alwaysThinkingEnabled": true,
+  "permissions": {
+    "allow": [
+      "Read:**",
+      "Write:**",
+      "Edit:**",
+      "Bash:npm *",
+      "Bash:node *",
+      "Bash:ts-node *",
+      "Bash:mkdir *",
+      "Bash:ls *",
+      "Bash:cat *",
+      "Bash:cd *",
+      "WebFetch:**",
+      "WebSearch:**",
+      "Grep:**",
+      "Glob:**",
+      "TodoWrite",
+      "Task:*"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
