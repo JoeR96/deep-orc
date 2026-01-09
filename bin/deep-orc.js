@@ -8,13 +8,13 @@ const PACKAGE_ROOT = path.join(__dirname, '..');
 
 function showHelp() {
   console.log(`
-Complex Task Agent - Multi-phase workflow orchestrator
+Deep Orc - Multi-phase workflow orchestrator
 
 Usage:
-  complex-task <command> [options]
+  deep-orc <command> [options]
 
 Commands:
-  init [dir]           Initialize complex-task-agent in a project directory
+  init [dir]           Initialize deep-orc in a project directory
                        Creates .claude/, instructions/, and outputs/ directories
                        Default: current directory
 
@@ -26,26 +26,26 @@ Commands:
 
 Examples:
   # Initialize in current directory
-  complex-task init
+  deep-orc init
 
   # Initialize in specific directory
-  complex-task init ./my-game-project
+  deep-orc init ./my-game-project
 
   # Run orchestrator (after init)
-  complex-task orchestrate "Create a user authentication system"
+  deep-orc orchestrate "Create a user authentication system"
 
   # Or use with Claude Code after init:
   cd my-project
   claude
   /orchestrate <your task>
 
-For more information, visit: https://github.com/your-org/complex-task-agent
+For more information, visit: https://github.com/your-org/deep-orc
 `);
 }
 
 function showVersion() {
   const packageJson = require(path.join(PACKAGE_ROOT, 'package.json'));
-  console.log(`complex-task-agent v${packageJson.version}`);
+  console.log(`deep-orc v${packageJson.version}`);
 }
 
 function copyDirectoryRecursive(src, dest) {
@@ -71,7 +71,7 @@ function copyDirectoryRecursive(src, dest) {
 function initProject(targetDir = '.') {
   const targetPath = path.resolve(targetDir);
 
-  console.log(`\n🚀 Initializing Complex Task Agent in: ${targetPath}\n`);
+  console.log(`\n🚀 Initializing Deep Orc in: ${targetPath}\n`);
 
   // Check if target directory exists
   if (!fs.existsSync(targetPath)) {
@@ -83,7 +83,7 @@ function initProject(targetDir = '.') {
   // Check if already initialized
   const claudeDir = path.join(targetPath, '.claude');
   if (fs.existsSync(claudeDir) && fs.existsSync(path.join(claudeDir, 'commands', 'orchestrate.md'))) {
-    console.log('⚠️  Complex Task Agent appears to be already initialized.');
+    console.log('⚠️  Deep Orc appears to be already initialized.');
     console.log('   .claude/commands/orchestrate.md already exists.\n');
 
     const readline = require('readline').createInterface({
@@ -142,7 +142,7 @@ function performInit(targetPath) {
     }
 
     const ignoreEntries = [
-      '\n# Complex Task Agent outputs',
+      '\n# Deep Orc outputs',
       'outputs/*.json',
       'outputs/*.md',
       'research/'
@@ -164,11 +164,11 @@ function performInit(targetPath) {
     }
 
     // Create a README in the project explaining usage
-    console.log('\n📖 Creating COMPLEX_TASK_AGENT.md...');
-    const readmePath = path.join(targetPath, 'COMPLEX_TASK_AGENT.md');
-    const readmeContent = `# Complex Task Agent Integration
+    console.log('\n📖 Creating DEEP_ORC.md...');
+    const readmePath = path.join(targetPath, 'DEEP_ORC.md');
+    const readmeContent = `# Deep Orc Integration
 
-This project uses the Complex Task Agent for multi-phase workflow orchestration.
+This project uses the Deep Orc for multi-phase workflow orchestration.
 
 ## Quick Start
 
@@ -182,12 +182,12 @@ claude
 ### Option 2: Using CLI
 
 \`\`\`bash
-complex-task orchestrate "<your task description>"
+deep-orc orchestrate "<your task description>"
 \`\`\`
 
 ## How It Works
 
-The orchestrator breaks complex tasks into 4 phases:
+The orchestrator breaks tasks into 4 phases:
 
 1. **Research** (Opus 4.5) - Deep domain analysis and approach exploration
 2. **Planning** (Opus 4.5) - Strategic implementation planning
@@ -223,8 +223,8 @@ See \`.claude/commands/orchestrate.md\` for comprehensive guidance on:
 
 ## Support
 
-For issues or questions about Complex Task Agent:
-https://github.com/your-org/complex-task-agent
+For issues or questions about Deep Orc:
+https://github.com/your-org/deep-orc
 `;
 
     fs.writeFileSync(readmePath, readmeContent);
@@ -239,7 +239,7 @@ https://github.com/your-org/complex-task-agent
    • outputs/          (Phase outputs)
 
 📄 Created files:
-   • COMPLEX_TASK_AGENT.md (Usage guide)
+   • DEEP_ORC.md (Usage guide)
    • .gitignore        (Updated with output exclusions)
 
 🚀 Next steps:
@@ -253,7 +253,7 @@ https://github.com/your-org/complex-task-agent
       nano instructions/coding-standards.instructions.md
 
    3. Start orchestrating:
-      complex-task orchestrate "<your task>"
+      deep-orc orchestrate "<your task>"
 
       OR with Claude Code:
       cd ${path.basename(targetPath)}
@@ -262,7 +262,7 @@ https://github.com/your-org/complex-task-agent
 
 📚 For detailed guidance, see:
    • .claude/commands/orchestrate.md (comprehensive guide)
-   • COMPLEX_TASK_AGENT.md (quick reference)
+   • DEEP_ORC.md (quick reference)
 
 Happy orchestrating! 🎉
 `);
@@ -275,20 +275,20 @@ Happy orchestrating! 🎉
 }
 
 async function runOrchestrator(taskDescription) {
-  console.log('\n🎯 Starting Complex Task Orchestrator...\n');
+  console.log('\n🎯 Starting Deep Orc Orchestrator...\n');
 
   // Check if we're in an initialized project
   const claudeDir = path.join(process.cwd(), '.claude');
   const instructionsDir = path.join(process.cwd(), 'instructions');
 
   if (!fs.existsSync(claudeDir) || !fs.existsSync(instructionsDir)) {
-    console.error('❌ Error: Complex Task Agent not initialized in this directory.');
-    console.log('\nRun first: complex-task init\n');
+    console.error('❌ Error: Deep Orc not initialized in this directory.');
+    console.log('\nRun first: deep-orc init\n');
     process.exit(1);
   }
 
   // Check if orchestrator.ts exists locally (after npm install)
-  const localOrchestrator = path.join(process.cwd(), 'node_modules', 'complex-task-agent', 'src', 'orchestrator.ts');
+  const localOrchestrator = path.join(process.cwd(), 'node_modules', 'deep-orc', 'src', 'orchestrator.ts');
   const packageOrchestrator = path.join(PACKAGE_ROOT, 'src', 'orchestrator.ts');
 
   let orchestratorPath;
@@ -323,7 +323,7 @@ switch (command) {
   case 'orchestrate':
     if (!args[1]) {
       console.error('\n❌ Error: Task description required\n');
-      console.log('Usage: complex-task orchestrate "<task description>"\n');
+      console.log('Usage: deep-orc orchestrate "<task description>"\n');
       process.exit(1);
     }
     runOrchestrator(args.slice(1).join(' '));

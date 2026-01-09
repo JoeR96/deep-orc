@@ -1,10 +1,10 @@
 {
-  "name": "complex-task-agent",
+  "name": "deep-orc",
   "version": "1.0.0",
-  "description": "A sophisticated workflow orchestrator using Claude Agent SDK for multi-phase task execution",
+  "description": "Deep Orchestrator - A sophisticated workflow orchestrator using Claude Agent SDK for multi-phase task execution",
   "main": "dist/orchestrator.js",
   "bin": {
-    "complex-task": "./bin/complex-task.js"
+    "deep-orc": "./bin/deep-orc.js"
   },
   "files": [
     "bin/",
@@ -39,11 +39,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/complex-task-agent.git"
+    "url": "git+https://github.com/yourusername/deep-orc.git"
   },
-  "homepage": "https://github.com/yourusername/complex-task-agent#readme",
+  "homepage": "https://github.com/yourusername/deep-orc#readme",
   "bugs": {
-    "url": "https://github.com/yourusername/complex-task-agent/issues"
+    "url": "https://github.com/yourusername/deep-orc/issues"
   },
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.1.0"
