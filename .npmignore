@@ -1,0 +1,39 @@
+# Development files
+*.log
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Test and coverage
+coverage/
+.nyc_output/
+test/
+*.test.ts
+*.test.js
+
+# Build artifacts
+*.tsbuildinfo
+
+# Output directories (users will have their own)
+outputs/*.json
+outputs/*.md
+research/
+
+# Documentation that users don't need
+INSTALLATION.md
+AGENT_SYSTEM_OVERVIEW.md
+
+# Node modules will be installed
+node_modules/
+
+# Keep only essential files
+# Include: bin/, src/, dist/, .claude/, instructions/, README.md, QUICKSTART.md, package.json, tsconfig.json

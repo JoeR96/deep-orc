@@ -3,8 +3,22 @@
   "version": "1.0.0",
   "description": "A sophisticated workflow orchestrator using Claude Agent SDK for multi-phase task execution",
   "main": "dist/orchestrator.js",
+  "bin": {
+    "complex-task": "./bin/complex-task.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "dist/",
+    ".claude/",
+    "instructions/",
+    "tsconfig.json",
+    "README.md",
+    "QUICKSTART.md"
+  ],
   "scripts": {
     "build": "tsc",
+    "prepublishOnly": "npm run build",
     "start": "ts-node src/orchestrator.ts",
     "dev": "ts-node --watch src/orchestrator.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,10 +28,23 @@
     "agent",
     "orchestrator",
     "workflow",
-    "automation"
+    "automation",
+    "ai",
+    "multi-phase",
+    "task-management",
+    "claude-code",
+    "anthropic"
   ],
   "author": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/complex-task-agent.git"
+  },
+  "homepage": "https://github.com/yourusername/complex-task-agent#readme",
+  "bugs": {
+    "url": "https://github.com/yourusername/complex-task-agent/issues"
+  },
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.1.0"
   },
