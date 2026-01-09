@@ -39,11 +39,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/deep-orc.git"
+    "url": "git+https://github.com/JoeR96/deep-orc.git"
   },
-  "homepage": "https://github.com/yourusername/deep-orc#readme",
+  "homepage": "https://github.com/JoeR96/deep-orc#readme",
   "bugs": {
-    "url": "https://github.com/yourusername/deep-orc/issues"
+    "url": "https://github.com/JoeR96/deep-orc/issues"
   },
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.1.0"
