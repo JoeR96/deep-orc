@@ -17,10 +17,7 @@ Follow standards in this order of precedence:
 **MANDATORY**: Before writing any code:
 
 1. Search for existing coding standards files:
-   - `CODING_STANDARDS.md`
-   - `CONTRIBUTING.md`
-   - `.editorconfig`
-   - `docs/standards.md` or similar
+   - `CODING_STANDARDS.md` or similar
 2. If found, follow those standards first
 3. Use these standards to fill gaps not covered by project docs
 

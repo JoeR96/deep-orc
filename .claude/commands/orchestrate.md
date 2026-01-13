@@ -297,6 +297,129 @@ Avoid:
 
 ---
 
+## Anti-Patterns to Avoid
+
+### Vague Problem Statements
+❌ "Build a user system"
+✅ "Build a multi-tenant user management system where organizations can invite members, assign roles, and control access to organization resources"
+
+### Solution-First Thinking
+❌ "Use Redis for caching and PostgreSQL for storage"
+✅ "We need fast lookups for user sessions (access pattern: read-heavy, ~10k ops/sec) and durable storage for user profiles (access pattern: write-once, read-occasionally). Evaluate Redis vs Memcached for sessions, PostgreSQL vs DynamoDB for profiles."
+
+### Ignoring Failure Scenarios
+❌ "When user clicks submit, save the form"
+✅ "When user clicks submit: validate inputs, check for duplicates, save with optimistic locking (handle concurrent edits), send confirmation email (async, retry on failure), redirect to success page (handle slow saves with loading state)"
+
+### Missing Business Context
+❌ "Add a search feature"
+✅ "Add product search for customers who know approximately what they want but need help finding specific items. Must handle typos, return results in <100ms, prioritize in-stock items, and suggest alternatives for out-of-stock products. Drives 40% of site conversions."
+
+### Ignoring Non-Functional Requirements
+❌ "Create an API endpoint for user data"
+✅ "Create user profile API: must support 500 req/sec, return data in <100ms p95, handle concurrent profile updates without data loss, rate limit to 100 req/min per user, require authentication, log access for GDPR compliance"
+
+### Overlooking Edge Cases
+❌ "Allow users to cancel subscriptions"
+✅ "Allow users to cancel subscriptions: immediate cancellation (lose access now) vs end-of-period (access until paid period ends), handle cancellation during trial differently, refund prorated amount for annual plans, delete payment method or keep on file? What happens to user data? Can they reactivate?"
+
+---
+
+## Questions to Consider
+
+Before submitting a task, ask yourself:
+
+### Domain Understanding
+- [ ] What are the core domain concepts?
+- [ ] What business rules must never be violated?
+- [ ] Who are the stakeholders and what do they need?
+- [ ] What language do domain experts use?
+
+### Problem Space
+- [ ] What problem am I really solving?
+- [ ] Why is this valuable to the business/users?
+- [ ] What happens if we don't build this?
+- [ ] Are there existing solutions to learn from?
+
+### Boundaries & Scope
+- [ ] What's explicitly in scope?
+- [ ] What's explicitly out of scope?
+- [ ] Where are the integration boundaries?
+- [ ] What are the dependencies?
+
+### Data & State
+- [ ] What are the core entities?
+- [ ] How do entities relate to each other?
+- [ ] What state transitions are valid?
+- [ ] Where is the source of truth for each entity?
+
+### Behavior & Rules
+- [ ] What are the key use cases?
+- [ ] What can go wrong in each use case?
+- [ ] What business rules govern behavior?
+- [ ] What edge cases exist?
+
+### Quality Attributes
+- [ ] What are the performance expectations?
+- [ ] How much scale is needed (now and future)?
+- [ ] What are the security requirements?
+- [ ] What are the compliance/regulatory needs?
+
+### Evolution
+- [ ] How will this change over time?
+- [ ] What extensibility points are needed?
+- [ ] What should we avoid coupling to?
+- [ ] What technical debt would we regret?
+
+---
+
+## Output Structure
+
+After orchestration completes, you'll find:
+
+```
+./research/
+├── domain-model.md              # Core concepts and relationships
+├── business-rules.md            # Invariants and policies
+├── use-cases.md                 # User journeys and scenarios
+├── approach-comparison.md       # Multiple solutions analyzed
+├── constraints-and-risks.md     # Limitations and concerns
+├── integration-analysis.md      # External dependencies
+└── recommendations.md           # Chosen approach and rationale
+
+./plan.md                        # Implementation roadmap
+./corrective-plan.md             # Issues found during review (if any)
+
+./outputs/
+├── research_[timestamp].json    # Research phase output
+├── plan_[timestamp].json        # Planning phase output
+├── implement_[timestamp].json   # Implementation phase output
+├── correct_[timestamp].json     # Correction phase output
+└── workflow_summary_[timestamp].json
+
+./src/                           # Implementation (varies by task)
+./tests/                         # Test suite
+```
+
+---
+
+## Tips for Success
+
+1. **Start with Why**: Explain the business problem before the technical solution
+2. **Use Domain Language**: Speak in terms the business understands
+3. **Be Specific About Rules**: "Valid email" is vague; specify the regex or validation library
+4. **Describe Failure**: What happens when things go wrong matters as much as happy paths
+5. **Think in Behaviors**: Not just data structures, but what actions are possible and their rules
+6. **Consider Time**: How do entities evolve? What's the lifecycle?
+7. **Question Assumptions**: State your assumptions explicitly so research can verify them
+8. **Think About Operations**: How is this monitored, debugged, and maintained?
+9. **Respect Boundaries**: Clearly define what's in vs out of scope
+10. **Optimize for Change**: What's likely to change and how can we accommodate it?
+
+---
+
+The orchestrator will guide you through deep analysis, strategic planning, implementation, and review to deliver a well-architected solution that solves real problems.
+
 ## Example Task Descriptions
 
 ### Example 1: E-Commerce Order Processing (Rich)
@@ -601,126 +724,3 @@ Avoid:
 ```
 
 ---
-
-## Anti-Patterns to Avoid
-
-### Vague Problem Statements
-❌ "Build a user system"
-✅ "Build a multi-tenant user management system where organizations can invite members, assign roles, and control access to organization resources"
-
-### Solution-First Thinking
-❌ "Use Redis for caching and PostgreSQL for storage"
-✅ "We need fast lookups for user sessions (access pattern: read-heavy, ~10k ops/sec) and durable storage for user profiles (access pattern: write-once, read-occasionally). Evaluate Redis vs Memcached for sessions, PostgreSQL vs DynamoDB for profiles."
-
-### Ignoring Failure Scenarios
-❌ "When user clicks submit, save the form"
-✅ "When user clicks submit: validate inputs, check for duplicates, save with optimistic locking (handle concurrent edits), send confirmation email (async, retry on failure), redirect to success page (handle slow saves with loading state)"
-
-### Missing Business Context
-❌ "Add a search feature"
-✅ "Add product search for customers who know approximately what they want but need help finding specific items. Must handle typos, return results in <100ms, prioritize in-stock items, and suggest alternatives for out-of-stock products. Drives 40% of site conversions."
-
-### Ignoring Non-Functional Requirements
-❌ "Create an API endpoint for user data"
-✅ "Create user profile API: must support 500 req/sec, return data in <100ms p95, handle concurrent profile updates without data loss, rate limit to 100 req/min per user, require authentication, log access for GDPR compliance"
-
-### Overlooking Edge Cases
-❌ "Allow users to cancel subscriptions"
-✅ "Allow users to cancel subscriptions: immediate cancellation (lose access now) vs end-of-period (access until paid period ends), handle cancellation during trial differently, refund prorated amount for annual plans, delete payment method or keep on file? What happens to user data? Can they reactivate?"
-
----
-
-## Questions to Consider
-
-Before submitting a task, ask yourself:
-
-### Domain Understanding
-- [ ] What are the core domain concepts?
-- [ ] What business rules must never be violated?
-- [ ] Who are the stakeholders and what do they need?
-- [ ] What language do domain experts use?
-
-### Problem Space
-- [ ] What problem am I really solving?
-- [ ] Why is this valuable to the business/users?
-- [ ] What happens if we don't build this?
-- [ ] Are there existing solutions to learn from?
-
-### Boundaries & Scope
-- [ ] What's explicitly in scope?
-- [ ] What's explicitly out of scope?
-- [ ] Where are the integration boundaries?
-- [ ] What are the dependencies?
-
-### Data & State
-- [ ] What are the core entities?
-- [ ] How do entities relate to each other?
-- [ ] What state transitions are valid?
-- [ ] Where is the source of truth for each entity?
-
-### Behavior & Rules
-- [ ] What are the key use cases?
-- [ ] What can go wrong in each use case?
-- [ ] What business rules govern behavior?
-- [ ] What edge cases exist?
-
-### Quality Attributes
-- [ ] What are the performance expectations?
-- [ ] How much scale is needed (now and future)?
-- [ ] What are the security requirements?
-- [ ] What are the compliance/regulatory needs?
-
-### Evolution
-- [ ] How will this change over time?
-- [ ] What extensibility points are needed?
-- [ ] What should we avoid coupling to?
-- [ ] What technical debt would we regret?
-
----
-
-## Output Structure
-
-After orchestration completes, you'll find:
-
-```
-./research/
-├── domain-model.md              # Core concepts and relationships
-├── business-rules.md            # Invariants and policies
-├── use-cases.md                 # User journeys and scenarios
-├── approach-comparison.md       # Multiple solutions analyzed
-├── constraints-and-risks.md     # Limitations and concerns
-├── integration-analysis.md      # External dependencies
-└── recommendations.md           # Chosen approach and rationale
-
-./plan.md                        # Implementation roadmap
-./corrective-plan.md             # Issues found during review (if any)
-
-./outputs/
-├── research_[timestamp].json    # Research phase output
-├── plan_[timestamp].json        # Planning phase output
-├── implement_[timestamp].json   # Implementation phase output
-├── correct_[timestamp].json     # Correction phase output
-└── workflow_summary_[timestamp].json
-
-./src/                           # Implementation (varies by task)
-./tests/                         # Test suite
-```
-
----
-
-## Tips for Success
-
-1. **Start with Why**: Explain the business problem before the technical solution
-2. **Use Domain Language**: Speak in terms the business understands
-3. **Be Specific About Rules**: "Valid email" is vague; specify the regex or validation library
-4. **Describe Failure**: What happens when things go wrong matters as much as happy paths
-5. **Think in Behaviors**: Not just data structures, but what actions are possible and their rules
-6. **Consider Time**: How do entities evolve? What's the lifecycle?
-7. **Question Assumptions**: State your assumptions explicitly so research can verify them
-8. **Think About Operations**: How is this monitored, debugged, and maintained?
-9. **Respect Boundaries**: Clearly define what's in vs out of scope
-10. **Optimize for Change**: What's likely to change and how can we accommodate it?
-
----
-
-The orchestrator will guide you through deep analysis, strategic planning, implementation, and review to deliver a well-architected solution that solves real problems.
